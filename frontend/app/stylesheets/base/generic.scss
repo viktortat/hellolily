@@ -717,3 +717,21 @@ address {
 .default-line-height {
     line-height: inherit !important;
 }
+
+.time-logger {
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+
+    strong {
+        text-align: left;
+        float: left;
+        width: 30%;
+    }
+
+    .form-control {
+        &.display-inline-block {
+            width: 70%;
+        }
+    }
+}

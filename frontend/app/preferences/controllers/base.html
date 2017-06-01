@@ -101,6 +101,12 @@
                         Integrations
                     </a>
                 </li>
+                <li ng-if="currentUser.isAdmin" ui-sref-active="active">
+                    <a ui-sref="base.preferences.admin.settings" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-cog"></i>
+                        Settings
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- END MENU -->

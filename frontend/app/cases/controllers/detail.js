@@ -45,7 +45,7 @@ function caseConfig($stateProvider) {
 angular.module('app.cases').controller('CaseDetailController', CaseDetailController);
 
 CaseDetailController.$inject = ['$scope', 'Case', 'HLResource', 'HLUtils', 'LocalStorage', 'Settings', 'Tenant',
-    'currentCase', 'caseAccount', 'caseContact', 'Case'];
+    'currentCase', 'caseAccount', 'caseContact'];
 function CaseDetailController($scope, Case, HLResource, HLUtils, LocalStorage, Settings, Tenant, currentCase,
     caseAccount, caseContact) {
     var vm = this;
@@ -83,7 +83,7 @@ function CaseDetailController($scope, Case, HLResource, HLUtils, LocalStorage, S
     function activate() {
         var caseEnd;
 
-        Tenant.query({}, function(tenant) {
+        Tenant.query({}, tenant => {
             vm.tenant = tenant;
         });
 
@@ -97,7 +97,7 @@ function CaseDetailController($scope, Case, HLResource, HLUtils, LocalStorage, S
 
         vm.caseEnd = caseEnd.add(2, 'days').format('YYYY-MM-DD');
 
-        Case.getStatuses(function(response) {
+        Case.getStatuses(response => {
             vm.statusChoices = response.results;
 
             vm.closedStatus = Case.closedStatus;

@@ -29,6 +29,12 @@ function EmailDetail($resource) {
                     return objects;
                 },
             },
+            timeLogs: {
+                url: '/api/messaging/email/email/:id/timelogs',
+                params: {
+                    id: '@id',
+                },
+            },
         }
     );
     return _emailDetail;

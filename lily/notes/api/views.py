@@ -1,11 +1,13 @@
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
+from lily.api.mixins import TimeLogMixin
 from lily.notes.api.serializers import NoteSerializer
 from lily.notes.models import Note
 
 
-class NoteViewSet(mixins.CreateModelMixin,
+class NoteViewSet(TimeLogMixin,
+                  mixins.CreateModelMixin,
                   mixins.RetrieveModelMixin,
                   mixins.UpdateModelMixin,
                   mixins.DestroyModelMixin,

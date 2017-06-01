@@ -1,0 +1,44 @@
+<div class="time-logger">
+    <div class="row">
+        <div class="col-md-12 margin-top-10">
+            <div class="hl-form-field" ng-class="{'has-error': vm.error}">
+                <strong>Time</strong>
+                <input class="form-control display-inline-block"
+                   maxlength="255"
+                   name="name"
+                   placeholder="Hours worked"
+                   type="text"
+                   ng-blur="vm.formatTime()"
+                   ng-model="vm.timeLog.time">
+
+                <span class="help-block" ng-if="vm.error">{{ $root.messages.alerts.timeLog.invalidTime }}</span>
+            </div>
+
+            <div class="margin-top-20">
+                <strong>Billable</strong>
+
+                <label class="switch">
+                    <input type="checkbox" ng-model="vm.timeLog.billable">
+                    <div class="slider round"></div>
+                </label>
+            </div>
+
+            <div class="margin-top-20">
+                <strong>Date</strong>
+                <div class="input-group">
+                    <input type="text"
+                        class="form-control"
+                        ng-model="vm.timeLog.date"
+                        uib-datepicker-popup="dd MMMM yyyy"
+                        datepicker-options="vm.datepickerOptions"
+                        datepicker-append-to-body="true"
+                        is-open="vm.pickerOpen"
+                        date-disabled="vm.disabledDates(date, mode)" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.pickerOpen = !vm.pickerOpen"><i class="lilicon hl-calendar-icon"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

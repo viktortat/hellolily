@@ -1,0 +1,7 @@
+<div ng-if="vm.currentUser.timeLogging.enabled">
+    <button class="btn btn-link link-no-decoration" ng-click="vm.openTimeLogModal()">
+        <i class="fa fa-clock-o"></i>
+    </button>
+
+    <time-log-display ng-if="vm.object.timeLogs" time-logs="vm.object.timeLogs" value="vm.value"></time-log-display>
+</div>

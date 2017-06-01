@@ -14,10 +14,11 @@
   },
   "dependencies": {
     "angular-elastic": "2.5.1",
-    "angular-ui-bootstrap": "2.2.0",
+    "angular-ui-bootstrap": "2.5.0",
     "angular-xeditable": "0.6.0",
     "autolinker": "1.1.1",
     "browserify": "13.1.0",
+    "duration-js": "^4.0.0",
     "google-libphonenumber": "^2.0.13",
     "gulp-buffer": "0.0.2",
     "gulp-tap": "0.1.3",

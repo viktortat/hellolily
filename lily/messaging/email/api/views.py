@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from lily.accounts.models import Account
+from lily.api.mixins import TimeLogMixin
 from lily.messaging.email.utils import get_email_parameter_api_dict, reindex_email_message
 from lily.search.lily_search import LilySearch
 from lily.users.models import UserInfo
@@ -151,7 +152,8 @@ class EmailAccountViewSet(mixins.DestroyModelMixin,
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class EmailMessageViewSet(mixins.RetrieveModelMixin,
+class EmailMessageViewSet(TimeLogMixin,
+                          mixins.RetrieveModelMixin,
                           mixins.ListModelMixin,
                           mixins.UpdateModelMixin,
                           mixins.DestroyModelMixin,

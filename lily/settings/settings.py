@@ -318,6 +318,7 @@ INSTALLED_APPS = (
     'lily.stats',
     'lily.tags',
     'lily.tenant',
+    'lily.timelogs',
     'lily.users',
     'lily.utils',
 

@@ -21,6 +21,12 @@ function Note($resource, HLResource) {
                     id: '@id',
                 },
             },
+            timeLogs: {
+                url: '/api/notes/:id/timelogs',
+                params: {
+                    id: '@id',
+                },
+            },
         }
     );
 
