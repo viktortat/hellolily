@@ -1,0 +1,82 @@
+<div class="widget-heading">
+    <div class="widget-title">
+        <div class="widget-name">Import</div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="widget-body">
+    <div class="widget-content">
+        <p>
+            <ul>
+                <li>Upload a csv file with account information</li>
+                <li>File should at least contain a column with the header: name</li>
+                <li>Optional headers are: website, email address, phone number, twitter, address, postal code, city</li>
+                <li>Extra headers are added in the description field of an account</li>
+                <li>Headers are case sensitve</li>
+            </ul>
+        </p>
+        <div class="row">
+            <div class="col-md-12">
+                <form novalidate name="importForm">
+                    <form-portlet portlet-title="Import accounts">
+
+                        <form-group label-title="Import" field="importForm.file">
+                            <div>
+
+                                <input type="file" ngf-select ng-model="vm.csv" name="file" accept="text/csv" ngf-max-size="2MB" required>
+
+                            </div>
+                        </form-group>
+                    </form-portlet>
+
+                    <div class="hl-form-footer">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"></div>
+                            <div class="col-xs-12 col-sm-9 col-md-8 col-md-7 col-lg-4">
+                                <button type="button" class="btn blue" ng-click="vm.importAccounts(importForm)">
+                                    <i class="fa fa-check"></i> Import
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form>
+                    <form-portlet portlet-title="Error" ng-if="vm.import_result_error.length">
+                        <div class="row">
+                            <div>
+                                <li ng-repeat="name in vm.import_result_error track by $index">
+                                  {{ name }}
+                                </li>
+                            </div>
+                        </div>
+                    </form-portlet>
+
+                    <form-portlet portlet-title="Duplicates" ng-if="vm.import_result_duplicate.length">
+                        <div class="row">
+                            <div>
+                                <li ng-repeat="name in vm.import_result_duplicate track by $index">
+                                  {{ name }}
+                                </li>
+                            </div>
+                        </div>
+                    </form-portlet>
+
+                    <form-portlet portlet-title="Created" ng-if="vm.import_result_created.length">
+                        <div class="row">
+                            <div>
+                                <li ng-repeat="name in vm.import_result_created track by $index">
+                                  {{ name }}
+                                </li>
+                            </div>
+                        </div>
+                    </form-portlet>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
