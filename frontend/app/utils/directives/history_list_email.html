@@ -1,0 +1,71 @@
+<div class="timeline-item-container">
+    <div class="activity-stream-image" ng-style="{'background-image': 'url(' + vm.item.profile_picture + ')'}"></div>
+
+    <div class="activity-stream-item has-email">
+        <div class="timeline-content-header">
+            <div>
+                <span ng-if="vm.item.privacy !== 2">
+                    <span ng-if="vm.item.subject" class="timeline-content-title">
+                        <a ng-if="vm.item.account" ui-sref="base.email.detail({ id: vm.item.id })">
+                            {{ ::vm.item.subject | limitTo:50 }}
+                            <span ng-if="::vm.item.subject.length >= 45">...</span>
+                        </a>
+                        <span ng-if="!vm.item.account">
+                            {{ ::vm.item.subject | limitTo:50 }}
+                            <span ng-if="::vm.item.subject.length >= 45">...</span>
+                        </span>
+                    </span>
+                    <span class="timeline-content-title" ng-if="!vm.item.subject"><i>No subject</i></span>
+                </span>
+                <span ng-if="vm.item.privacy === 2">
+                    <span class="timeline-content-title" ng-if="!vm.item.subject">[Subject hidden]</span>
+                </span>
+
+                <div class="timeline-date" title="Sent on {{ ::vm.item.sent_date | date:'dd MMM yyyy - HH:mm' }}">
+                    {{ ::vm.item.sent_date | date:'dd MMM yyyy - HH:mm' }}
+                </div>
+            </div>
+
+            <div class="margin-top-10">
+                <div class="display-inline-block">
+                    <span ng-show="vm.item.sender_name">
+                        <a ui-sref="base.email.composeEmail({email: vm.item.sender_email})">
+                            {{ ::vm.item.sender_name }}
+                        </a>
+                    </span>
+                    <span ng-show="!vm.item.sender_name">
+                        <a ui-sref="base.email.composeEmail({email: vm.item.sender_email})">
+                            {{ ::vm.item.sender_email }}
+                        </a>
+                    </span>
+
+                    <span ng-if="vm.item.right"> <--- </span>
+                    <span ng-if="!vm.item.right"> ---> </span>
+
+                    <span ng-if="vm.item.received_by_email.length == 1" ng-repeat="recipient in vm.item.received_by_email">
+                        <a uib-tooltip="{{ recipient }}" ui-sref="base.email.composeEmail({email: recipient})">
+                            {{ recipient }}
+                        </a>
+                    </span>
+                    <span ng-if="vm.item.received_by_email.length > 1 ">
+                        <a ui-sref="base.email.detail({ id: vm.item.id })">
+                            {{ vm.item.received_by_email.length }} recipients
+                        </a>
+                    </span>
+                </div>
+
+                <div class="pull-right display-inline-block">
+                    <a ng-click="vm.replyOnEmail()" class="margin-right-10"><i class="fa fa-mail-reply"></i> Reply</a>
+                    <a ui-sref="base.email.forward({id: vm.item.id})"><i class="fa fa-mail-forward"></i> Forward</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-details history-item-body" ng-if="vm.item.account && vm.item.shown">
+            <p class="detail-plain-text" ng-bind-html="vm.item.body"></p>
+        </div>
+        <div class="content-details history-item-body hidden-content" ng-if="!vm.item.account && vm.item.shown">
+            {{ $root.messages.historyList.emailMetadataMessage }}
+        </div>
+    </div>
+</div>

@@ -294,12 +294,16 @@
         <checkbox model="vm.mergeStreams" class="pull-right">Merge activity streams</checkbox>
 
         <span ng-if="vm.mergeStreams">
+            test merged
             <activity-stream ng-if="vm.deal.id" target="'deal'" object="vm.deal" extra-object="{object: vm.deal.account, target: 'account'}" date-start="vm.dealStart" date-end="vm.dealEnd"></activity-stream>
         </span>
 
         <span ng-if="!vm.mergeStreams">
+            test not merged
             <activity-stream ng-if="vm.deal.id" target="'deal'" object="vm.deal"></activity-stream>
+            test 2 not merged
             <activity-stream ng-if="vm.deal.account.id" target="'account'" object="vm.deal.account" date-start="vm.dealStart" date-end="vm.dealEnd" parent-object="vm.deal"></activity-stream>
+            test 3 not merged
         </span>
     </div>
 </div>

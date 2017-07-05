@@ -71,7 +71,7 @@
                         </div>
                     </div>
 
-                    <div class="stream-subitem-object">
+                    <div class="stream-subitem-object" ng-repeat="note in vm.item.notes">
                         <div class="stream-subitem-image">
                             <div ng-if="vm.item.created_by" class="stream-subitem-avatar" ng-style="{'background-image': 'url(' + vm.item.created_by.profile_picture + ')'}"></div>
                             <div ng-if="!vm.item.created_by" class="stream-subitem-avatar" style="background-image: url('vendor/metronic/assets/admin/layout4/img/avatar.png');"></div>
@@ -88,7 +88,7 @@
                             <div class="stream-subitem-avatar is-note"><i class="lilicon hl-note-icon"></i></div>
                         </div>
                         <div class="stream-subitem-main small-note-field no-padding">
-                            <activity-add-note item="vm.item"></activity-add-note>
+                            <history-add-note item="vm.item"></history-add-note>
                         </div>
                     </div>
                 </div>
