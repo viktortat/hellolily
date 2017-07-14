@@ -1,9 +1,12 @@
 <div class="row">
     <div class="col-md-12">
+        <div class="spacer-40" ng-if="activity.list.totalItems && parentObject"></div>
         <div class="activity-stream">
-            <div class="activity-stream-filter">
-                <ul ng-if="!parentObject">
-                    <li ng-repeat="(typeKey, typeVal) in activity.types" ng-if="typeVal.visible" ng-class="{'active': activity.activeFilter == typeKey}" ng-click="activity.filterType(typeKey)">{{ typeVal.name }}</li>
+            <div class="activity-stream-filter" ng-if="!parentObject">
+                <ul class="hl-button-list">
+                    <li class="hl-button-list-item" ng-repeat="(typeKey, typeVal) in activity.types" ng-if="typeVal.visible" ng-class="{'active': activity.activeFilter == typeKey}" ng-click="activity.filterType(typeKey)">
+                        <span class="hl-button-list-option">{{ typeVal.name }}</span>
+                    </li>
                 </ul>
             </div>
 
@@ -46,14 +49,16 @@
                 </div>
             </div>
 
-            <div class="activity-stream-content" id="activityStreamBlockTarget">
-                <div class="timeline-info-header" ng-if="activity.list.totalItems && parentObject">
-                    <h3 class="text-center">Latest {{ target }} activity</h3>
+            <div class="activity-stream-filter" ng-if="activity.list.totalItems && parentObject">
+                <h3 class="text-center">Latest {{ target }} activity</h3>
+                <ul class="hl-button-list text-center">
+                    <li class="hl-button-list-item" ng-repeat="(typeKey, typeVal) in activity.types" ng-if="typeVal.visible" ng-class="{'active': activity.activeFilter == typeKey}" ng-click="activity.filterType(typeKey)">
+                        <span class="hl-button-list-option">{{ typeVal.name }}</span>
+                    </li>
+                </ul>
+            </div>
 
-                    <ul class="mix-filter text-center">
-                        <li ng-repeat="(typeKey, typeVal) in activity.types" ng-if="typeVal.visible" ng-class="{'active': activity.activeFilter == typeKey}" ng-click="activity.filterType(typeKey)">{{ typeVal.name }}</li>
-                    </ul>
-                </div>
+            <div class="activity-stream-content" id="activityStreamBlockTarget">
 
 
                 <div ng-show="activity.list.pinned.length">

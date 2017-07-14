@@ -82,23 +82,42 @@
 }
 
 .activity-stream {
-    background: white;
+    background: #fff;
     border: $base-border-color 1px solid;
 }
 
 .activity-stream-filter {
     border-bottom: $app-bg-color 1px solid;
+    padding: 10px 20px;
+
+    &:after {
+        content: "";
+        clear: both;
+        display: block;
+    }
 }
 
 .activity-stream-comment {
     position: relative;
-    margin: 0 20px;
+    margin: 20px 20px 0;
 }
 
 .activity-stream-content {
     margin: 0 20px 20px;
     position: relative;
     padding-top: 15px;
+
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 19px;
+        width: 16px;
+        height: 16px;
+        border: 4px $lily-grey solid;
+        background: #fff;
+
+    }
 }
 
 .activity-stream-comment,
@@ -111,17 +130,6 @@
         width: 4px;
         background: $app-bg-color;
         position: absolute;
-    }
-
-    &:after {
-        position: absolute;
-        bottom: 0;
-        left: 25px;
-        border-radius: 50%;
-        width: 8px;
-        height: 8px;
-        background: red;
-
     }
 }
 
@@ -263,13 +271,13 @@
     margin: -1px 0;
     padding: 5px 5px 5px 10px;
     border: 1px $app-bg-color solid;
-    background: #FCFCFE;
+    background: #fcfcfe;
 
     .editable {
         display: flex;
     }
 
-    &.hidden-content{
+    &.hidden-content {
         background: repeating-linear-gradient(45deg, lighten($app-bg-color, 3), lighten($app-bg-color, 3) 10px, #fff 10px, #fff 20px);
         color: $app-color-grey;
         text-align: center;
@@ -294,7 +302,6 @@
 
     .editable {
         display: inline-block;
-        border: none;
         margin-left: -5px;
         border: 1px transparent solid;
         border-top-left-radius: 4px;
@@ -332,7 +339,7 @@
     flex-grow: 3;
 
     &.small-note-field {
-        textarea.form-control {
+        .form-control {
             min-height: 30px;
             transition: 0.5s;
 
@@ -353,14 +360,14 @@
     width: 21px;
     border-right: 2px solid $app-bg-color;
 
-    &:after{
+    &:after {
         position: absolute;
         content: "";
         display: block;
         width: 8px;
         border: 2px $app-bg-color solid;
         height: 8px;
-        background: #FCFCFE;
+        background: #fcfcfe;
         bottom: 0;
         left: 16px;
         border-radius: 4px;
@@ -375,10 +382,6 @@
 
 .stream-subitem-date {
     color: $app-color-grey;
-}
-
-.stream-subitem-content{
-
 }
 
 .stream-subitem-avatar {
