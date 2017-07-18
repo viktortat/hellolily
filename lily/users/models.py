@@ -268,6 +268,5 @@ def logged_out_callback(sender, **kwargs):
     """
     Set a confirmation message in the request that the user is logged out successfully.
     """
-    if not settings.DEBUG:
-        request = kwargs['request']
-        messages.info(request, _('You are now logged out.'))
+    request = kwargs['request']
+    messages.info(request, _('You are now logged out.'))

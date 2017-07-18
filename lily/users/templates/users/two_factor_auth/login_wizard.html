@@ -66,6 +66,15 @@
                         {% csrf_token %}
 
                         {{ wizard.management_form }}
+
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
                         {% include 'users/two_factor_auth/_form_fields.html' with form=wizard.form %}
 
                         {% include 'users/two_factor_auth/_wizard_actions.html' %}
