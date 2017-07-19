@@ -11,6 +11,27 @@ class LilyConsumer(WebsocketConsumer):
     http_user = True
 
     def connect(self, message, **kwargs):
+
+
+
+
+
+        print message.channel_session       # Deze verandert wanneer de CHANNEL_SESSION_ENGINE verandert
+        print message.http_session          # Deze niet
+                                            # Dit is allemaal goed
+
+        print '\n\n'
+
+        # Wanneer CHANNEL_SESSION_ENGINE verandert heeft de http session geen items meer
+        print message.http_session.items()
+        # Hierdoor krijgen we dan ook {"error": "unauthenticated"} en werken de tests niet
+        # Dit is dus niet goed
+
+
+
+
+
+
         if message.user.is_anonymous():
             message.reply_channel.send({
                 "text": json.dumps({

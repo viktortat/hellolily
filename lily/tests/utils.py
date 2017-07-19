@@ -44,7 +44,8 @@ class UserBasedTest(object):
         cls.user_obj = LilyUser.objects.create_user(
             email='user1@lily.com',
             password=password,
-            tenant_id=tenant_1.id
+            tenant_id=tenant_1.id,
+            internal_number='123'
         )
         cls.user = APIClient()
         cls.user.login(email=cls.user_obj.email, password=password)
@@ -53,7 +54,8 @@ class UserBasedTest(object):
         cls.superuser_obj = LilyUser.objects.create_superuser(
             email='superuser1@lily.com',
             password=password,
-            tenant_id=tenant_1.id
+            tenant_id=tenant_1.id,
+            internal_number='456'
         )
         cls.superuser = APIClient()
         cls.superuser.login(email=cls.superuser_obj.email, password=password)
@@ -62,7 +64,8 @@ class UserBasedTest(object):
         cls.other_tenant_user_obj = LilyUser.objects.create_user(
             email='user2@lily.com',
             password=password,
-            tenant_id=tenant_2.id
+            tenant_id=tenant_2.id,
+            internal_number='789'
         )
         cls.other_tenant_user = APIClient()
         cls.other_tenant_user.login(email=cls.other_tenant_user_obj.email, password=password)
