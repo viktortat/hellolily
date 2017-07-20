@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^cases/', include('lily.cases.urls')),
     url(r'^contacts/', include('lily.contacts.urls')),
     url(r'^deals/', include('lily.deals.urls')),
+    url(r'^email/', include('lily.email.urls')),
     url(r'^messaging/email/', include('lily.messaging.email.urls')),
     url(r'^stats/', include('lily.stats.urls')),
     url(r'^taskmonitor/', include('taskmonitor.urls')),
