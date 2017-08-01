@@ -7,39 +7,41 @@
 
 <div class="widget-body">
     <div class="widget-content">
-        <p>
-            <ul>
-                <li>Upload a csv file with account information</li>
-                <li>File should at least contain a column with the header: name</li>
-                <li>Optional headers are: website, email address, phone number, twitter, address, postal code, city</li>
-                <li>Extra headers are added in the description field of an account</li>
-                <li>Headers are case sensitve</li>
-            </ul>
-        </p>
         <div class="row">
             <div class="col-md-12">
                 <form novalidate name="importForm">
                     <form-portlet portlet-title="Import accounts">
+                        <p>List accounts all at once by importing a .csv file containing account information.</p>
+                        <ul class="hl-instruction-list">
+                            <li class="hl-instruction-list-item">Only .CSV files are eligable</li>
+                            <li class="hl-instruction-list-item">The file should at least contain a column with the header: <strong>name</strong></li>
+                            <li class="hl-instruction-list-item">Optional headers are:
+                                <strong>website</strong>,
+                                <strong>email address</strong>,
+                                <strong>phone number</strong>,
+                                <strong>twitter</strong>,
+                                <strong>address</strong>,
+                                <strong>postal code</strong>,
+                                <strong>city</strong>
+                            </li>
+                            <li class="hl-instruction-list-item">Information in any additional columns will be added to the description of an account</li>
+                            <li class="hl-instruction-list-item">Please note that headers are case sensitve</li>
+                        </ul>
 
-                        <form-group label-title="Import" field="importForm.file">
+                        <form-group field="importForm.file">
                             <div>
+                                <div class="hl-select-file">
+                                    <input class="hl-select-file-input" size="10" id="file" type="file" ngf-select ng-model="vm.csv" name="file" accept="text/csv" ngf-max-size="2MB" required>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="spacer-20"></div>
 
-                                <input type="file" ngf-select ng-model="vm.csv" name="file" accept="text/csv" ngf-max-size="2MB" required>
-
+                                <button type="button" class="hl-primary-btn-blue" ng-click="vm.importAccounts(importForm)">
+                                    <i class="fa fa-upload"></i> Import
+                                </button>
                             </div>
                         </form-group>
                     </form-portlet>
-
-                    <div class="hl-form-footer">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"></div>
-                            <div class="col-xs-12 col-sm-9 col-md-8 col-md-7 col-lg-4">
-                                <button type="button" class="btn blue" ng-click="vm.importAccounts(importForm)">
-                                    <i class="fa fa-check"></i> Import
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
