@@ -84,10 +84,10 @@ function ContactListController($scope, $window, Settings, Account, Contact, HLUt
         }
 
         Contact.search({
-            q: $scope.table.filter,
-            page: $scope.table.page - 1,
-            size: $scope.table.pageSize,
-            sort: sort,
+            search: $scope.table.filter,
+            page: $scope.table.page,
+            page_size: $scope.table.pageSize,
+            ordering: sort,
         }, function(data) {
             $scope.table.items = data.objects;
 
