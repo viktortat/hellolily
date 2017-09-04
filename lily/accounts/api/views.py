@@ -5,12 +5,11 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from lily.api.filters import ElasticSearchFilter, SoftDeleteFilter
+from lily.api.filters import ElasticQueryFilter, ElasticSearchFilter, SoftDeleteFilter
 from lily.api.mixins import ModelChangesMixin
 from lily.calls.api.serializers import CallSerializer
 from lily.calls.models import Call
 from lily.users.models import LilyUser
-
 from .serializers import AccountSerializer, AccountStatusSerializer
 from ..models import Account, AccountStatus
 
@@ -61,27 +60,14 @@ class AccountViewSet(ModelChangesMixin, ModelViewSet):
     # Set the serializer class for this viewset.
     serializer_class = AccountSerializer
     # Set all filter backends that this viewset uses.
-    filter_backends = (SoftDeleteFilter, ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
+    filter_backends = (ElasticQueryFilter, SoftDeleteFilter, ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
 
     # OrderingFilter: set all possible fields to order by.
-    ordering_fields = ('id', 'name', 'assigned_to', 'status', 'created', 'modified')
-    # OrderingFilter: set the default ordering fields.
-    ordering = ('id', )
+    ordering_fields = ('name', 'assigned_to', 'status', 'created', 'modified')
     # SearchFilter: set the fields that can be searched on.
     search_fields = ('name', 'assigned_to')
     # DjangoFilter: set the filter class.
     filter_class = AccountFilter
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
 
     @detail_route(methods=['GET'])
     def calls(self, request, pk=None):
