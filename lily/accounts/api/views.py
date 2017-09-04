@@ -5,7 +5,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from lily.api.filters import ElasticQueryFilter, ElasticSearchFilter, SoftDeleteFilter
+from lily.api.filters import ElasticQueryFilter, ElasticSearchFilter
 from lily.api.mixins import ModelChangesMixin
 from lily.calls.api.serializers import CallSerializer
 from lily.calls.models import Call
@@ -60,7 +60,7 @@ class AccountViewSet(ModelChangesMixin, ModelViewSet):
     # Set the serializer class for this viewset.
     serializer_class = AccountSerializer
     # Set all filter backends that this viewset uses.
-    filter_backends = (SoftDeleteFilter, ElasticQueryFilter, ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
+    filter_backends = (ElasticQueryFilter, ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
 
     # OrderingFilter: set all possible fields to order by.
     ordering_fields = ('name', 'assigned_to', 'status', 'created', 'modified')
@@ -68,6 +68,16 @@ class AccountViewSet(ModelChangesMixin, ModelViewSet):
     search_fields = ('name', 'assigned_to')
     # DjangoFilter: set the filter class.
     filter_class = AccountFilter
+
+    def get_queryset(self):
+        """
+        Set the queryset here so it filters on tenant and works with pagination.
+        """
+        if 'filter_deleted' in self.request.GET:
+            if self.request.GET.get('filter_deleted') == 'False':
+                return super(AccountViewSet, self).get_queryset()
+
+        return super(AccountViewSet, self).get_queryset().filter(is_deleted=False)
 
     @detail_route(methods=['GET'])
     def calls(self, request, pk=None):
