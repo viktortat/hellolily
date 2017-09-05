@@ -145,7 +145,9 @@ class ElasticQuerySet(models.QuerySet):
         """
         Add filter/exclude queries to Elasticsearch.
 
-        TODO: This method only supports a tiny subset of Django's filter API.
+        Elasticsearch does not support the full Django filter API, but most
+        common filters are supported. This method will convert Django filters
+        to their Elasticsearch counterparts.
         """
         clone = super(ElasticQuerySet, self)._filter_or_exclude(negate, *args, **kwargs)
 
@@ -157,6 +159,7 @@ class ElasticQuerySet(models.QuerySet):
         for key, value in kwargs.iteritems():
             method = key.split('__')[-1]
 
+            # Detect whether we're dealing with a "special" filter here.
             if method in (
                     'gte', 'gt', 'lt', 'lte', 'exact', 'iexact', 'contains', 'icontains', 'in', 'startswith',
                     'istartswith', 'endswith', 'iendswith', 'range', 'year', 'month', 'day', 'hour', 'minute',
@@ -175,7 +178,8 @@ class ElasticQuerySet(models.QuerySet):
                 elif method == 'range':
                     raise NotImplementedError('Still need to check how range params are passed ;)')
                 elif method == 'year':
-                    # We can filter on years by rounding the times to years and then do a range query.
+                    # We can filter on years by rounding the times to years
+                    # and then do a range query.
                     query = Range(**{field: {'gte': {value+'/y'}, 'lt': {value+'/y'}}})
                 elif method == 'isnull':
                     query = ~Exists(field=field)
@@ -216,7 +220,7 @@ class ElasticQuerySet(models.QuerySet):
             fields.remove('id')
 
         if len(fields) > 0:
-            obj.search = obj.search.sort(*['%s.sortable' % field for field in fields])
+            obj.search = obj.search.sort(*fields)
 
         return obj
 
