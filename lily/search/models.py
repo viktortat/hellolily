@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.query_utils import Q
 from elasticsearch_dsl import Search
+from elasticsearch_dsl.query import Bool, Term, Range, Terms, Prefix, Exists, Regexp
 import six
 
 from lily.search.registries import registry
@@ -151,10 +152,47 @@ class ElasticQuerySet(models.QuerySet):
         if len(args) == 0 and len(kwargs) == 0:
             return clone
 
-        if negate:
-            clone.search = clone.search.exclude('term', *args, **kwargs)
-        else:
-            clone.search = clone.search.filter('term', *args, **kwargs)
+        queries = []
+
+        for key, value in kwargs.iteritems():
+            method = key.split('__')[-1]
+
+            if method in (
+                    'gte', 'gt', 'lt', 'lte', 'exact', 'iexact', 'contains', 'icontains', 'in', 'startswith',
+                    'istartswith', 'endswith', 'iendswith', 'range', 'year', 'month', 'day', 'hour', 'minute',
+                    'second', 'isnull', 'search', 'regex', 'iregex'
+            ):
+                field = str(key.replace('__' + method, ''))
+
+                if method in ('gte', 'gt', 'lt', 'lte'):
+                    query = Range(**{method: {field: value}})
+                elif method == 'exact':
+                    query = Term(**{field: value})
+                elif method == 'in':
+                    query = Terms(**{field: value})
+                elif method == 'startswith':
+                    query = Prefix(**{field: value})
+                elif method == 'range':
+                    raise NotImplementedError('Still need to check how range params are passed ;)')
+                elif method == 'year':
+                    # We can filter on years by rounding the times to years and then do a range query.
+                    query = Range(**{field: {'gte': {value+'/y'}, 'lt': {value+'/y'}}})
+                elif method == 'isnull':
+                    query = ~Exists(field=field)
+                elif method == 'regex':
+                    query = Regexp(**{field: value})
+                else:
+                    raise NotImplementedError('Elasticsearch does not support %s filters.' % method)
+            else:
+                # This is not a special query, so execute it as a term query.
+                query = Term(**{key: value})
+
+            if negate:
+                queries.append(~query)
+            else:
+                queries.append(query)
+
+        clone.search = clone.search.query(Bool(filter=queries))
 
         return clone
 
