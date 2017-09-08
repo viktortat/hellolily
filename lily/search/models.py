@@ -59,7 +59,7 @@ class ElasticQuerySet(models.QuerySet):
                 qs.search = qs.search[k:k+1]
                 return list(qs)[0]
         else:
-            super(ElasticQuerySet, self).__getitem__(k)
+            return super(ElasticQuerySet, self).__getitem__(k)
 
     def _sql_iterator(self):
         """
