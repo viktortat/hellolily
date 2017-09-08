@@ -5,7 +5,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from lily.api.filters import ElasticQueryFilter, ElasticSearchFilter
+from lily.api.filters import ElasticSearchFilter
 from lily.api.mixins import ModelChangesMixin
 from lily.calls.api.serializers import CallSerializer
 from lily.calls.models import Call
@@ -60,7 +60,7 @@ class AccountViewSet(ModelChangesMixin, ModelViewSet):
     # Set the serializer class for this viewset.
     serializer_class = AccountSerializer
     # Set all filter backends that this viewset uses.
-    filter_backends = (ElasticQueryFilter, ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
+    filter_backends = (ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
 
     # OrderingFilter: set all possible fields to order by.
     ordering_fields = ('name', 'assigned_to', 'status', 'created', 'modified')

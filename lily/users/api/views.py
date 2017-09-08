@@ -24,7 +24,7 @@ from two_factor.utils import default_device, backup_phones
 from user_sessions.models import Session
 from templated_email import send_templated_mail
 
-from lily.api.filters import ElasticQueryFilter, ElasticSearchFilter
+from lily.api.filters import ElasticSearchFilter
 from lily.utils.functions import post_intercom_event
 
 from .utils import get_info_text_for_device
@@ -101,7 +101,7 @@ class LilyUserViewSet(viewsets.ModelViewSet):
     # Set the serializer class for this viewset.
     serializer_class = LilyUserSerializer
     # Set all filter backends that this viewset uses.
-    filter_backends = (ElasticQueryFilter, ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
+    filter_backends = (ElasticSearchFilter, OrderingFilter, DjangoFilterBackend)
 
     # OrderingFilter: set all possible fields to order by.
     ordering_fields = (
