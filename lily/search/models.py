@@ -191,14 +191,17 @@ class ElasticQuerySet(models.QuerySet):
             except TypeError:
                 value = str(value)
 
+            # Elasticsearch uses dot notation to identify nested fields.
+            key = key.replace('__', '.')
+
             # Detect whether we're dealing with a "special" filter here.
-            method = key.split('__')[-1]
+            method = key.split('.')[-1]
             if method in (
                     'gte', 'gt', 'lt', 'lte', 'exact', 'iexact', 'contains', 'icontains', 'in', 'startswith',
                     'istartswith', 'endswith', 'iendswith', 'range', 'year', 'month', 'day', 'hour', 'minute',
                     'second', 'isnull', 'search', 'regex', 'iregex'
             ):
-                field = str(key.replace('__' + method, ''))
+                field = str(key.replace('.' + method, ''))
 
                 if method in ('gte', 'gt', 'lt', 'lte'):
                     query = Range(**{field: {method: value}})
