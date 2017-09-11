@@ -53,16 +53,6 @@ services:
       - http.host=0.0.0.0  # Dev mode config.
       - transport.host=127.0.0.1  # Dev mode config.
       - xpack.security.enabled=false  # Image comes with paid auth addon, we don't want that.
-    ulimits:  # Memory configuration, don't try to understand this.
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    mem_limit: 1g  # Memory configuration, don't try to understand this.
-    cap_add:  # Memory configuration, don't try to understand this.
-      - IPC_LOCK
 
   app:
     image: "hellolily/hellolily-app:latest"
