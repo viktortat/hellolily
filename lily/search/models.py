@@ -57,7 +57,7 @@ class ElasticQuerySet(models.QuerySet):
                 return qs
             else:
                 qs = self._clone()
-                qs.search = qs.search[k:k+1]
+                qs.search = qs.search[k:k + 1]
                 return list(qs)[0]
         else:
             return super(ElasticQuerySet, self).__getitem__(k)
@@ -216,7 +216,7 @@ class ElasticQuerySet(models.QuerySet):
                 elif method == 'year':
                     # We can filter on years by rounding the times to years
                     # and then do a range query.
-                    query = Range(**{field: {'gte': {value+'/y'}, 'lt': {value+'/y'}}})
+                    query = Range(**{field: {'gte': {value + '/y'}, 'lt': {value + '/y'}}})
                 elif method == 'isnull':
                     query = ~Exists(field=field)
                 elif method == 'regex':
