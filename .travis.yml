@@ -76,6 +76,8 @@ before_script:
   # Always build new images for docker.
   - docker-compose -f docker-compose.yml -f docker-compose.new-build.yml build
 
+  - docker-compose run --rm es elasticsearch -V
+
 script:
   # Run git hooks with overcommit.
   - overcommit --sign
