@@ -127,6 +127,22 @@ class LilyUserViewSet(viewsets.ModelViewSet):
             first_name=''
         )
 
+        # By default we filter out non-active users.
+        is_active_param = self.request.query_params.get('is_active', 'True')
+
+        if is_active_param in (True, 'True', 'true', '1'):
+            is_active = True
+        elif is_active_param in (False, 'False', 'false', '0'):
+            is_active = False
+        elif is_active_param in ('All', 'all'):
+            is_active = None
+        else:
+            is_active = True
+
+        # If the value is `All`, do not filter, otherwise filter the queryset on is_active status.
+        if is_active is not None:
+            queryset = queryset.filter(is_active=is_active)
+
         return queryset
 
     def get_object(self):

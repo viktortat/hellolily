@@ -117,6 +117,8 @@ function PreferencesCompanyUserList($compile, $scope, $templateCache, HLForms, L
 
         if (vm.table.statusFilter !== undefined) { // undefined here means "ALL"
             queryData.is_active = vm.table.statusFilter;
+        } else {
+            queryData.is_active = 'All';
         }
 
         User.search(queryData, function(response) {

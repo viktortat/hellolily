@@ -167,7 +167,7 @@ class ElasticQuerySet(models.QuerySet):
 
             return self._result_cache[0]
         else:
-            super(ElasticQuerySet, self).first()
+            return super(ElasticQuerySet, self).first()
 
     def last(self):
         raise NotImplementedError('Elasticsearch does not support last queries.')
