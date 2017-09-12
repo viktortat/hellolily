@@ -108,24 +108,20 @@ function PreferencesCompanyUserList($compile, $scope, $templateCache, HLForms, L
     }
 
     function _updateUsers() {
-        var ordering;
-        var filterQuery = '';
-
-        ordering = vm.table.order.descending ? '-' + vm.table.order.column : vm.table.order.column;
-
-        if (vm.table.statusFilter) {
-            filterQuery = 'is_active:' + vm.table.statusFilter;
-        }
-
-        User.search({
-            filterquery: filterQuery,
+        let queryData = {
             page: vm.table.page,
             page_size: vm.table.pageSize,
-            ordering: ordering,
+            ordering: vm.table.order.descending ? '-' + vm.table.order.column : vm.table.order.column,
             search: vm.table.searchQuery,
-        }, function(response) {
-            vm.table.items = response.results;
-            vm.table.totalItems = response.pagination.total;
+        };
+
+        if (vm.table.statusFilter !== undefined) { // undefined here means "ALL"
+            queryData.is_active = vm.table.statusFilter;
+        }
+
+        User.search(queryData, function(response) {
+            vm.table.items = response.objects;
+            vm.table.totalItems = response.total;
         }, function() {
             vm.table.items = [];
             vm.table.totalItems = 0;

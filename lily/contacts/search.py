@@ -250,10 +250,7 @@ class Contact(DocType):
         'name': TextField(),
         'customer_id': KeywordField(),
         'function': KeywordField(),
-        'phone_numbers': ObjectField(properties={
-            'number': TextField(),
-            'formatted_number': TextField(),
-        }),
+        'phone_numbers': TextField(),
     })
     active_at = IntegerField()
     created = DateField()
@@ -290,10 +287,7 @@ class Contact(DocType):
             'customer_id': func.account.customer_id,
             'function': func.title,
             'is_active': func.is_active,
-            'phone_numbers': [{
-                'number': phone_number.number,
-                'formatted_number': format_phone_number(phone_number.number),
-            } for phone_number in func.account.phone_numbers.all()],
+            'phone_numbers': [phone_number.number for phone_number in func.account.phone_numbers.all()],
         }
 
     def prepare_accounts(self, obj):

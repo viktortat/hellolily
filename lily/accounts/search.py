@@ -244,25 +244,42 @@ class AccountMapping(BaseMapping):
 @index.doc_type
 class Account(DocType):
     address_full = TextField()
-    address = ObjectField()
-    assigned_to = TextField(fields={'sortable': KeywordField()})
+    address = ObjectField(properties={
+        'address': TextField(),
+        'postal_code': TextField(),
+        'city': TextField(),
+        'country': TextField(),
+    })
+    assigned_to = ObjectField(properties={
+        'id': IntegerField(),
+        'full_name': TextField(),
+    })
     customer_id = TextField()
-    created = DateField(fields={'sortable': DateField()})
+    created = DateField()
     description = TextField()
-    email_address = ObjectField(properties={
+    email_addresses = ObjectField(properties={
         'id': IntegerField(),
         'email_address': TextField(),
         'status': IntegerField(),
     })
     is_deleted = BooleanField()
-    modified = DateField(fields={'sortable': DateField()})
-    name = TextField(fields={'sortable': KeywordField()})
-    phone_number = ObjectField()
-    status = TextField(fields={'sortable': KeywordField()})
-    tags = ObjectField()
+    modified = DateField()
+    name = TextField()
+    phone_numbers = ObjectField(properties={
+        'id': IntegerField(),
+        'number': TextField(),
+        'type': TextField(),
+        'status': IntegerField(),
+        'status_name': TextField(),
+    })
+    status = TextField()
+    tags = ObjectField(properties={
+        'id': IntegerField(),
+        'name': TextField(),
+        'object_id': IntegerField(),
+    })
     tenant_id = IntegerField()
-    website = ObjectField()
-    domain = TextField()
+    domains = TextField()
 
     def get_queryset(self):
         return AccountModel.objects.all()
@@ -279,16 +296,19 @@ class Account(DocType):
         } for address in obj.addresses.all()]
 
     def prepare_assigned_to(self, obj):
-        return obj.assigned_to.full_name if obj.assigned_to else None
+        return {
+            'id': obj.assigned_to.id,
+            'full_name': obj.assigned_to.full_name,
+        } if obj.assigned_to else None
 
-    def prepare_email_address(self, obj):
+    def prepare_email_addresses(self, obj):
         return [{
             'id': email.id,
             'email_address': email.email_address,
             'status': email.status,
         } for email in obj.email_addresses.all()]
 
-    def prepare_phone_number(self, obj):
+    def prepare_phone_numbers(self, obj):
         return [{
             'id': phone_number.id,
             'number': phone_number.number,
@@ -323,7 +343,7 @@ class Account(DocType):
             'is_primary': website.is_primary,
         } for website in obj.websites.all()]
 
-    def prepare_domain(self, obj):
+    def prepare_domains(self, obj):
         return [website.full_domain for website in obj.websites.all()]
 
     class Meta:

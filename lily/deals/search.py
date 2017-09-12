@@ -300,15 +300,13 @@ class Deal(DocType):
         'name': TextField(),
         'is_deleted': BooleanField(),
     })
-    amount_once = FloatField(fields={
-        'sortable': FloatField(),
-    })
-    amount_recurring = FloatField(fields={
-        'sortable': FloatField(),
-    })
+    amount_once = FloatField()
+    amount_recurring = FloatField()
     assigned_to = ObjectField(properties={
         'id': IntegerField(),
-        'full_name': TextField(fields={'sortable': KeywordField()}),
+        'first_name': KeywordField(),
+        'full_name': TextField(),
+        'last_name': KeywordField(),
     })
     assigned_to_teams = IntegerField()
     card_sent = BooleanField()
@@ -322,10 +320,12 @@ class Deal(DocType):
         'id': IntegerField(),
         'full_name': TextField(),
     })
-    created = DateField(fields={'sortable': DateField()})
+    created = DateField()
     created_by = ObjectField(properties={
         'id': IntegerField(),
-        'full_name': TextField(fields={'sortable': KeywordField()}),
+        'first_name': KeywordField(),
+        'full_name': TextField(),
+        'last_name': KeywordField(),
     })
     currency = KeywordField()
     currency_display = KeywordField()
@@ -339,11 +339,11 @@ class Deal(DocType):
     is_deleted = BooleanField()
     modified = DateField()
     name = TextField()
-    new_business = BooleanField(fields={'sortable': BooleanField()})
+    new_business = BooleanField()
     newly_assigned = BooleanField()
     next_step = ObjectField(properties={
         'id': IntegerField(),
-        'name': TextField(fields={'sortable': KeywordField()}),
+        'name': TextField(),
         'date_increment': IntegerField(),
         'position': IntegerField(),
     })
@@ -353,7 +353,7 @@ class Deal(DocType):
     quote_id = KeywordField()
     status = ObjectField(properties={
         'id': IntegerField(),
-        'name': TextField(fields={'sortable': KeywordField()}),
+        'name': TextField(),
         'position': IntegerField(),
     })
     tags = ObjectField(properties={
@@ -383,7 +383,9 @@ class Deal(DocType):
     def prepare_assigned_to(self, obj):
         return {
             'id': obj.assigned_to.id,
+            'first_name': obj.assigned_to.first_name,
             'full_name': obj.assigned_to.full_name,
+            'last_name': obj.assigned_to.last_name,
         } if obj.assigned_to else None
 
     def prepare_assigned_to_teams(self, obj):
@@ -392,8 +394,10 @@ class Deal(DocType):
     def prepare_contact(self, obj):
         return {
             'id': obj.contact.id,
+            'first_name': obj.contact.first_name,
             'full_name': obj.contact.full_name,
             'is_deleted': obj.contact.is_deleted,
+            'last_name': obj.contact.last_name,
         } if obj.contact else None
 
     def prepare_contacted_by(self, obj):

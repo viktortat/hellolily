@@ -1,7 +1,7 @@
 from lily.accounts.models import Account
 from lily.contacts.models import Contact
 from lily.search.base_mapping import BaseMapping
-from lily.search.fields import ObjectField, BooleanField, IntegerField, TextField, DateField
+from lily.search.fields import ObjectField, BooleanField, IntegerField, TextField, DateField, KeywordField
 from lily.search.indices import Index
 from lily.search.search import DocType
 from lily.tags.models import Tag
@@ -222,13 +222,15 @@ class Case(DocType):
     assigned_to_teams = IntegerField()
     contact = ObjectField(properties={
         'id': IntegerField(),
-        'name': TextField(),
+        'full_name': TextField(),
         'is_deleted': BooleanField(),
     })
     created = DateField()
     created_by = ObjectField(properties={
         'id': IntegerField(),
+        'first_name': KeywordField(),
         'full_name': TextField(),
+        'last_name': KeywordField(),
     })
     description = TextField()
     expires = DateField()
@@ -238,7 +240,10 @@ class Case(DocType):
     newly_assigned = BooleanField()
     priority = IntegerField()
     priority_display = TextField()
-    status = TextField()
+    status = ObjectField(properties={
+        'id': IntegerField(),
+        'name': TextField(),
+    })
     subject = TextField()
     tags = ObjectField(properties={
         'id': IntegerField(),
@@ -272,12 +277,6 @@ class Case(DocType):
 
     def prepare_priority_display(self, obj):
         return obj.get_priority_display()
-
-    def prepare_status(self, obj):
-        return obj.status.name
-
-    def prepare_tenant_id(self, obj):
-        return obj.tenant_id
 
     class Meta:
         model = CaseModel

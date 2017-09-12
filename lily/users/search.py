@@ -6,7 +6,6 @@ from lily.search.search import DocType
 from .models import LilyUser as LilyUserModel, Team as TeamModel
 
 user_index = Index('user')
-team_index = Index('user_team')
 
 
 class LilyUserMapping(BaseMapping):
@@ -127,14 +126,3 @@ class LilyUser(DocType):
 
     class Meta:
         model = LilyUserModel
-
-
-@team_index.doc_type
-class Team(DocType):
-    name = TextField()
-
-    def get_queryset(self):
-        return TeamModel.objects.all()
-
-    class Meta:
-        model = TeamModel
