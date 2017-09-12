@@ -10,7 +10,8 @@ RUN apk add --no-cache \
     ncurses5-libs \
     rsync \
     nodejs \
-    libjpeg-turbo-dev
+    libjpeg-turbo-dev \
+    libffi-dev
 
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/add-or-copy
 COPY requirements.txt requirements.txt

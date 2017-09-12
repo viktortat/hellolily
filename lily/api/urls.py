@@ -10,6 +10,8 @@ from lily.deals.api.views import (DealViewSet, DealStatusViewSet, DealNextStepLi
                                   DealWhyCustomerViewSet, DealContactedByViewSet, DealWhyLostViewSet,
                                   DealFoundThroughViewSet)
 from lily.email.api.views import EmailAccountViewSet as EmailV3AccountViewSet
+from lily.email.api.views import EmailMessageViewSet as EmailV3MessageViewSet
+from lily.email.api.views import EmailDraftViewSet as EmailV3DraftViewSet
 from lily.integrations.api.views import (DocumentDetails, EstimatesList, IntegrationAuth, MoneybirdContactImport,
                                          PandaDocList)
 from lily.messaging.email.api.views import (EmailLabelViewSet, EmailAccountViewSet, EmailMessageViewSet,
@@ -63,6 +65,8 @@ router.register(r'billing', BillingViewSet, base_name='billing')
 router.register(r'utils/countries', CountryViewSet)
 
 router.register(r'email/accounts', EmailV3AccountViewSet)
+router.register(r'email/messages', EmailV3MessageViewSet)
+router.register(r'email/drafts', EmailV3DraftViewSet)
 
 urlpatterns = [
     url(r'^cases/types/$', CaseTypeList.as_view()),
