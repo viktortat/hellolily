@@ -4,7 +4,8 @@ import urllib
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import UserManager, AbstractBaseUser, PermissionsMixin, Group
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import UserManager, PermissionsMixin, Group
 from django.contrib.auth.signals import user_logged_out
 from django.core.mail import send_mail
 from django.db import models

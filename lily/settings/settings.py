@@ -254,7 +254,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'lily.middleware.TokenAuthenticationMiddleware',
     'django_otp.middleware.OTPMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -423,7 +422,7 @@ LOGGING = {
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
         },
         'null': {
-            'class': 'django.utils.log.NullHandler',
+            'class': 'logging.NullHandler',
         },
     },
 }
@@ -676,8 +675,6 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
 # Tenant support
 MULTI_TENANT = boolean(os.environ.get('MULTI_TENANT', 0))
-
-BILLING_ENABLED = boolean(os.environ.get('BILLING_ENABLED', 0))
 
 # Django Bootstrap
 # TODO: These settings can be removed once all forms are converted to Angular
