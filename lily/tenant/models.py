@@ -17,7 +17,7 @@ class TenantManager(models.Manager):
         to the current logged in user (received via custom middleware).
         """
         user = get_current_user()
-        if user and user.is_authenticated():
+        if user and user.is_authenticated:
             return super(TenantManager, self).get_queryset().filter(tenant=user.tenant)
         else:
             return super(TenantManager, self).get_queryset()
@@ -46,7 +46,7 @@ class MultiTenantMixin(models.Model):
     def save(self, *args, **kwargs):
         user = get_current_user()
 
-        if user and user.is_authenticated() and not self.tenant_id:
+        if user and user.is_authenticated and not self.tenant_id:
             self.tenant = user.tenant
 
         return super(MultiTenantMixin, self).save(*args, **kwargs)

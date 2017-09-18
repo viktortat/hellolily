@@ -60,7 +60,7 @@ class RegistrationView(FormView):
     form_class = TenantRegistrationForm
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return redirect(reverse_lazy('base_view'))
 
         # Show a different template when registration is closed.

@@ -16,6 +16,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUpload
 from django.core.files.storage import default_storage
 from django.core.mail import SafeMIMEText, SafeMIMEMultipart
 from django.core.urlresolvers import reverse
+from django.core.validators import validate_comma_separated_integer_list
 from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
