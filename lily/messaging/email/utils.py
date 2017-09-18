@@ -521,22 +521,6 @@ def create_recipients(receivers, filter_emails=[]):
     return recipients
 
 
-def reindex_email_message(instance):
-    """
-    Re-index the given email message instance, so there is no need to misuse the save method for triggering a re-index.
-
-    No need to check related models compared to the more generic post_save signal. Email messages have no related model
-    mapping.
-    """
-    if settings.ES_DISABLED:
-        return
-    if not isinstance(instance, EmailMessage):
-        return
-    mapping = ModelMappings.model_to_mappings.get(type(instance))
-    if mapping:
-        update_in_index(instance, mapping)
-
-
 def fullpath(filename):
     return os.path.join(DATA_DIR, "{:%H%M%S%f}".format(datetime.now()) + '-' + filename)
 
