@@ -10,7 +10,6 @@ import html2text
 from urllib import unquote
 
 from django.apps import apps
-from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse
 from django.template import engines, Context, TemplateSyntaxError
@@ -22,7 +21,7 @@ from lily.accounts.models import Account
 from lily.contacts.models import Contact
 
 from .decorators import get_safe_template
-from .models.models import EmailAttachment, EmailMessage, EmailAccount
+from .models.models import EmailAttachment, EmailAccount
 from .sanitize import sanitize_html_email
 
 _EMAIL_PARAMETER_DICT = {}
