@@ -1,5 +1,9 @@
 import json
+from gevent import monkey
+import socket
 import grequests
+ # To work around 'LoopExit: This operation would block forever' issue with grequests.
+reload(socket)
 
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -397,12 +401,17 @@ class WritableNestedSerializer(ValidateEverythingSimultaneouslyMixin, serializer
             headers = {
                 'Content-Type': 'application/json',
             }
-
+    
             webhook_calls = (grequests.post(wh.url, data=data, headers=headers) for wh in [webhook])
 
             try:
+                # To work around 'LoopExit: This operation would block forever' issue with grequests.
+                monkey.patch_socket()
+
                 # User has a webhook set, so post the data to the given URL.
                 grequests.map(webhook_calls)
+                # Also for the 'LoopExit' issue.
+                reload(socket)
             except:
                 pass
 

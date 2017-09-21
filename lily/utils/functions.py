@@ -7,6 +7,8 @@ from time import time
 import anyjson
 import phonenumbers
 import requests
+from gevent import monkey
+import socket
 from django import forms
 from django.conf import settings
 
@@ -260,6 +262,7 @@ def send_post_request(url, credentials, params, patch=False, async_request=False
         # For some reason Celery/Flower stops working when placing this with the other imports.
         # Importing it here seems to work fine.
         import grequests
+        reload(socket)
 
         if patch:
             calls = (grequests.patch(url, headers=headers, json=params) for url in [url])
@@ -267,7 +270,10 @@ def send_post_request(url, credentials, params, patch=False, async_request=False
             calls = (grequests.post(url, headers=headers, json=params) for url in [url])
 
         try:
+            # To work around LoopExit: This operation would block forever with grequests
+            monkey.patch_socket()
             response = grequests.map(calls)[0]
+            reload(socket)
         except:
             pass
     else:
