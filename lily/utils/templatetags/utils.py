@@ -35,7 +35,7 @@ class IsAjaxBase(Node):
         # Gracefully fail if request is not in the context
         if not request:
             import warnings
-            # TODO: change the warning, django.core.context_processors.request and TEMPLATE_CONTEXT_PROCESSORS are removed in django 1.10
+            # TODO: django.core.context_processors.request and TEMPLATE_CONTEXT_PROCESSORS are removed in django 1.10
             warnings.warn(
                 "The ifisajax templatetag require that a "
                 "'request' variable is available in the template's "

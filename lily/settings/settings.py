@@ -9,7 +9,6 @@ import chargebee
 import dj_database_url
 import raven
 from django.conf import global_settings
-from django.urls import reverse_lazy
 
 
 #######################################################################################################################
@@ -65,6 +64,7 @@ DATABASES = {
 }
 
 SITE_ID = os.environ.get('SITE_ID', 1)
+
 
 #######################################################################################################################
 # REDIS CONFIG                                                                                                        #

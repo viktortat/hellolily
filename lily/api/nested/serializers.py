@@ -1,9 +1,6 @@
 import json
 from gevent import monkey
 import socket
-import grequests
- # To work around 'LoopExit: This operation would block forever' issue with grequests.
-reload(socket)
 
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -15,6 +12,10 @@ from rest_framework.fields import empty
 from rest_framework.serializers import SerializerMetaclass
 
 from lily.api.mixins import ValidateEverythingSimultaneouslyMixin
+
+import grequests
+# To work around 'LoopExit: This operation would block forever' issue with grequests.
+reload(socket)
 
 
 def is_dirty(instance, data):
@@ -401,7 +402,7 @@ class WritableNestedSerializer(ValidateEverythingSimultaneouslyMixin, serializer
             headers = {
                 'Content-Type': 'application/json',
             }
-    
+
             webhook_calls = (grequests.post(wh.url, data=data, headers=headers) for wh in [webhook])
 
             try:

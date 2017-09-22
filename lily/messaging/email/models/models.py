@@ -486,11 +486,17 @@ class EmailOutboxMessage(TenantMixin, models.Model):
     headers = models.TextField(null=True, blank=True, verbose_name=_('email headers'))
     mapped_attachments = models.IntegerField(verbose_name=_('number of mapped attachments'))
     original_attachment_ids = models.CommaSeparatedIntegerField(max_length=255, default='')
-    original_attachment_ids_char = models.CharField(max_length=255, default='', validators=[validate_comma_separated_integer_list])
+    original_attachment_ids_char = models.CharField(max_length=255,
+                                                    default='',
+                                                    validators=[validate_comma_separated_integer_list]
+                                                    )
     subject = models.CharField(null=True, blank=True, max_length=255, verbose_name=_('subject'))
     send_from = models.ForeignKey(EmailAccount, verbose_name=_('from'), related_name='outbox_messages')
     template_attachment_ids = models.CommaSeparatedIntegerField(max_length=255, default='')
-    template_attachment_ids_char = models.CharField(max_length=255, default='', validators=[validate_comma_separated_integer_list])
+    template_attachment_ids_char = models.CharField(max_length=255,
+                                                    default='',
+                                                    validators=[validate_comma_separated_integer_list]
+                                                    )
     to = models.TextField(verbose_name=_('to'))
     original_message_id = models.CharField(null=True, blank=True, max_length=50, db_index=True)
 
